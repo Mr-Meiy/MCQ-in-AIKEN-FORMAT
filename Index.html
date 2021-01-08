@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <title>AIKEN Format</title>
+  <style type="text/css">
+    /*body { 
+      background: url(https://image.freepik.com/free-vector/abstract-modern-glowing-wave-transparent-background_1055-5178.jpg) no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    }*/
+    body
+    {
+      background-color: #ebf6ff;
+    }
+  </style>
+  <script>
+      window.onload = function () {
+      var textFile = null,
+        makeTextFile = function (text) {
+            var data = new Blob([text], {
+                type: 'text/plain'
+            });
+            if (textFile !== null) {
+                window.URL.revokeObjectURL(textFile);
+            } 
+            textFile = window.URL.createObjectURL(data);
+            return textFile;
+        };
+
+      var create = document.getElementById('create');
+      var qns=[]
+      var question = document.getElementById('question');
+      var option_a = document.getElementById('option_a');
+      var option_b = document.getElementById('option_b');
+      var option_c = document.getElementById('option_c');
+      var option_d = document.getElementById('option_d');
+      var ans = document.getElementsByName('ans');
+
+      create.addEventListener('click', function () {
+        qns.push("Qn "+(qns.length+1)+" "+(question.value).trim()+"\n"+"A. "+(option_a.value).trim()+"\n"+"B. "+(option_b.value).trim()+"\n"+"C. "+(option_c.value).trim()+"\n"+"D. "+(option_d.value).trim()+"\n"+"ANSWER: "+(ans.value)+"\n\n")
+        document.getElementById('qnno').innerText="Question No. : "+(qns.length+1);
+        document.getElementById('question').value="";
+        document.getElementById('option_a').value="";
+        document.getElementById('option_b').value="";
+        document.getElementById('option_c').value="";
+        document.getElementById('option_d').value="";
+        document.getElementsByName('ans').checked=false;
+        var link = document.getElementById('downloadlink');
+        link.href = makeTextFile((qns.join("")).trim());
+        link.style.display = 'block';
+      }, false);
+    };
+  </script>
+</head>
+<body>
+  <h1>AIKEN Format</h1>
+  <div class="container" align="center">
+    <p id="qnno">Question No. : 1</p>
+        <!--Question :--> <textarea id="question" class="form-control" style="width:90%; height:100px; overflow:auto;" placeholder="Question"></textarea>
+    <br><!--Option A :--> <textarea id="option_a" class="form-control" style="width:60%; height:40px;" placeholder="Option A"></textarea>
+    <br><!--Option B :--> <textarea id="option_b" class="form-control" style="width:60%; height:40px;" placeholder="Option B"></textarea>
+    <br><!--Option C :--> <textarea id="option_c" class="form-control" style="width:60%; height:40px;" placeholder="Option C"></textarea>
+    <br><!--Option D :--> <textarea id="option_d" class="form-control" style="width:60%; height:40px;" placeholder="Option D"></textarea>
+    <br>
+        <input type="radio" name="ans" value="A"> <b for="A">A</b>
+        <input type="radio" name="ans" value="B"> <b for="B">B</b>
+        <input type="radio" name="ans" value="C"> <b for="C">C</b>
+        <input type="radio" name="ans" value="D"> <b for="D">D</b>
+    <br>
+    <button id="create" class="btn btn-success">Create file</button>
+    <br><br>
+    <a download="MCQ.txt" id="downloadlink" class="btn btn-sm btn-primary" style="width:100px; display: none"><i class="fa fa-download"></i>  Download</a>
+  </div>
+</body>
+</html>
